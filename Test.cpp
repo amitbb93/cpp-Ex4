@@ -45,12 +45,12 @@ int main() {
 		testcase.setname("Play with smart guesser");
 		RandomChooser randy;
 		SmartGuesser smarty;
-		/*for (uint i=0; i<100; ++i) {
+		for (uint i=0; i<100; ++i) {
 			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100)<=100, true);  // smarty should always win in at most 10 turns!
-		}*/
+		}
 		
-		/*ConstantChooser c0000{"8950"};
-		testcase.CHECK_EQUAL(play(c0000, smarty, 4, 100)<=10, true);*/
+		ConstantChooser c0000{"8950"};
+		testcase.CHECK_EQUAL(play(c0000, smarty, 4, 100)<=10, true);
 		
 		
 		testcase.setname("<4 length")
