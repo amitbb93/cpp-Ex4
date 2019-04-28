@@ -1,8 +1,8 @@
 # cpp-Ex4
 
-### BullAndPgia game project.
-<p>Language programming: CPP.</p> 
-<p>Programed by: Amit Bibi & Lihi Belfer.</p> 
+##### BullAndPgia game project.
+##### Language programming: CPP. 
+##### Programed by: Amit Bibi & Lihi Belfer. 
 
 ## BullPgia project:
 In this project we have created an algorithm that guess an answer within 100 turns by getting "Bull & Pgia" feedback as the original game "Bulls & Cows".
