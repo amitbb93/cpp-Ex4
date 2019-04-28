@@ -9,15 +9,15 @@
 #include <iostream>
 using namespace std;
 
-/*#include "play.hpp"
-#include "calculate.hpp"
+#include "play.hpp"
+//#include "calculate.hpp"
 #include "DummyChoosers.hpp"
 #include "DummyGuessers.hpp"
 #include "SmartGuesser.hpp"
 #include "badkan.hpp"
-#define COMMA ,*/
+#define COMMA ,
 
-#include "play.hpp"
+/*#include "play.hpp"
 #include "DummyChoosers.hpp"
 #include "DummyGuessers.hpp"
 #include "SmartGuesser.hpp"
@@ -25,7 +25,7 @@ using namespace std;
 #include <random>
 #include <chrono>
 #include "calculate.hpp"
-#define COMMA ,
+#define COMMA ,*/
 using namespace bullpgia;
 
 int main() {
