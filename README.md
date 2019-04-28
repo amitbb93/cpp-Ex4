@@ -1,6 +1,6 @@
 # cpp-Ex4
 
-<p>BullAndPgia game project.</p> 
+### BullAndPgia game project.
 <p>Language programming: CPP.</p> 
 <p>Programed by: Amit Bibi & Lihi Belfer.</p> 
 
