@@ -10,22 +10,13 @@
 using namespace std;
 
 #include "play.hpp"
-//#include "calculate.hpp"
+#include "calculate.hpp"
 #include "DummyChoosers.hpp"
 #include "DummyGuessers.hpp"
 #include "SmartGuesser.hpp"
 #include "badkan.hpp"
 #define COMMA ,
 
-/*#include "play.hpp"
-#include "DummyChoosers.hpp"
-#include "DummyGuessers.hpp"
-#include "SmartGuesser.hpp"
-#include "badkan.hpp"
-#include <random>
-#include <chrono>
-#include "calculate.hpp"
-#define COMMA ,*/
 using namespace bullpgia;
 
 int main() {
