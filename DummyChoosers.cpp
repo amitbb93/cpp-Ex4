@@ -1,6 +1,9 @@
 #include "DummyChoosers.hpp"
 #include <stdlib.h>
-
+/**
+	 * This function chooses a number randomaly 
+	 * @return the choose string
+	 */
 std::string RandomChooser::choose(uint length) {
 	std::string r="";
 	for (uint i=0; i<length; ++i) {
