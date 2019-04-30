@@ -51,7 +51,8 @@ string SmartGuesser::buildSolution(){
 		}
 	}
 	if(secondAttempt > -1 && bull == 1) secondBool = 0;
-	if(secondAttempt == 2 && bull != 1) {secondAttempt=3; secondBool = 0;}
+	if((secondBool = 1) && (firstAttempt == 0 || firstAttempt == 1) && secondAttempt == 2 && bull != 1) {secondAttempt=3; secondBool = 0;}
+	if((secondBool = 1) && (firstAttempt == 2 || firstAttempt == 3) && secondAttempt == 1 && bull != 1) {secondAttempt=2; secondBool = 0;}
 	if(secondBool==1){
 		switch(firstAttempt){
 			case 0:
@@ -77,7 +78,18 @@ string SmartGuesser::buildSolution(){
 		}
 	}
 	if(thirdAttempt > -1 && bull == 1) thirdBool = 0;
-	if(thirdAttempt == 2 && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 0 && secondAttempt == 1 && thirdAttempt == 2) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 0 && secondAttempt == 2 && thirdAttempt == 1) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 0 && secondAttempt == 3 && thirdAttempt == 1) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 1 && secondAttempt == 0 && thirdAttempt == 2) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 1 && secondAttempt == 2 && thirdAttempt == 0) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 1 && secondAttempt == 3 && thirdAttempt == 0) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 2 && secondAttempt == 0 && thirdAttempt == 1) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 2 && secondAttempt == 1 && thirdAttempt == 0) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 2 && secondAttempt == 3 && thirdAttempt == 0) && bull != 1) {thirdAttempt=1; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 3 && secondAttempt == 0 && thirdAttempt == 1) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 3 && secondAttempt == 1 && thirdAttempt == 0) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
+	if((thirdBool = 1) && (firstAttempt == 3 && secondAttempt == 2 && thirdAttempt == 0) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
 	if(thirdBool==1){
 		switch(firstAttempt){
 			case 0:

@@ -27,8 +27,9 @@ int main() {
 	if (signal == 0) {
 
 		// BASIC TESTS - DO NOT CHANGE
-		ConstantChooser c0{"0"}, c1{"3456"}, c1234{"1234"}, c12345{"12345"}, c9999{"9999"};
-		ConstantGuesser g0{"0"}, g1{"3456"}, g1234{"1234"}, g12345{"12345"}, g9999{"9999"};
+		ConstantChooser c0{"0"}, c1{"3456"}, c1234{"1234"}, c12345{"12345"}, c9999{"9999"}, c5678{"5678"}, c55555{"55555"},c01234{"01234"};
+		ConstantGuesser g0{"0"}, g1{"3456"}, g1234{"1234"}, g12345{"12345"}, g9999{"9999"}, g5678{"5678"}, g55555{"55555"},g01234{"01234"};
+
 
 		testcase.setname("Calculate bull and pgia")
 		.CHECK_OUTPUT(calculateBullAndPgia("1234","1234"), "4,0")      // 4 bull, 0 pgia
@@ -45,13 +46,15 @@ int main() {
 		testcase.setname("Play with smart guesser");
 		RandomChooser randy;
 		SmartGuesser smarty;
-		for (uint i=0; i<100; ++i) {
+		for (uint i=0; i<10; ++i) {
 			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100)<=100, true);  // smarty should always win in at most 10 turns!
 		}
 		
-		ConstantChooser c0000{"8950"};
-		testcase.CHECK_EQUAL(play(c0000, smarty, 4, 100)<=10, true);
-		
+		//Our tests:
+		//test digits that arent found in the guesse string
+		//test repeated digit in the guesse string
+		//test repeated digit that are not found in the guesse string
+		//more casual tests
 		
 		testcase.setname("<4 length")
 		.CHECK_OUTPUT(calculateBullAndPgia("9","8"), "0,0")
@@ -59,10 +62,28 @@ int main() {
 		.CHECK_OUTPUT(calculateBullAndPgia("45","45"), "2,0")
 		.CHECK_OUTPUT(calculateBullAndPgia("87","79"), "0,1")
 		.CHECK_OUTPUT(calculateBullAndPgia("75","57"), "0,2")
+		.CHECK_OUTPUT(calculateBullAndPgia("8977", "7970"), "2,1")
+		.CHECK_OUTPUT(calculateBullAndPgia("1211", "2111"), "2,2")
+		.CHECK_OUTPUT(calculateBullAndPgia("8977", "7908"), "1,2")
 		.CHECK_OUTPUT(calculateBullAndPgia("9999","9999"), "4,0")
 		.CHECK_OUTPUT(calculateBullAndPgia("1573","1875"), "2,1")
-		.CHECK_OUTPUT(calculateBullAndPgia("1223","1213"), "3,1");
-		testcase.setname(">4 length")
+		.CHECK_OUTPUT(calculateBullAndPgia("1223","1213"), "3,1")
+		.CHECK_OUTPUT(calculateBullAndPgia("0000", "1000"), "3,0")
+		.CHECK_OUTPUT(calculateBullAndPgia("1110", "1010"), "3,0")
+		;
+
+		testcase.setname(">4 length")  
+		.CHECK_OUTPUT(calculateBullAndPgia("23456", "44444"), "1,0")
+		.CHECK_OUTPUT(calculateBullAndPgia("56789", "55555"), "1,0")
+		.CHECK_OUTPUT(calculateBullAndPgia("15973", "99999"), "1,0")
+		.CHECK_OUTPUT(calculateBullAndPgia("56789", "98675"), "0,5")
+		.CHECK_OUTPUT(calculateBullAndPgia("56789", "58796"), "1,4")
+		.CHECK_OUTPUT(calculateBullAndPgia("12345", "12345"), "5,0")
+		.CHECK_OUTPUT(calculateBullAndPgia("12345", "21436"), "0,4")
+		.CHECK_OUTPUT(calculateBullAndPgia("12345", "99129"), "2,3")
+		.CHECK_OUTPUT(calculateBullAndPgia("84592", "84952"), "3,2")
+		.CHECK_OUTPUT(calculateBullAndPgia("56789", "56789"), "5,0")
+		.CHECK_OUTPUT(calculateBullAndPgia("85258", "11111"), "0,0")
 		.CHECK_OUTPUT(calculateBullAndPgia("3456789","3456789"), "7,0")
 		.CHECK_OUTPUT(calculateBullAndPgia("789654","000124"), "1,0")
 		.CHECK_OUTPUT(calculateBullAndPgia("0002000","1112111"), "1,0")
@@ -70,15 +91,35 @@ int main() {
 		.CHECK_OUTPUT(calculateBullAndPgia("987632100","001236789"), "1,8") 
 		.CHECK_OUTPUT(calculateBullAndPgia("852852857","852852857"), "9,0")
 		;
-
+		
 		testcase.setname("play test")
 		.CHECK_EQUAL(play(c1234, g1234, 4, 5), 1)
 		.CHECK_EQUAL(play(c0, g0, 1, 5), 1)
 		.CHECK_EQUAL(play(c1234, g0, 1, 5), 0)
 		.CHECK_EQUAL(play(c0, g12345, 1, 100), 101)
+		.CHECK_EQUAL(play(c5678, g5678, 4, 100), 1)
+		.CHECK_EQUAL(play(c1, g9999, 4, 100), 101)    
+		.CHECK_EQUAL(play(c12345, g55555, 4, 100), 101)  	
+		.CHECK_EQUAL(play(c1234, g55555, 4, 100), 101)   
+		.CHECK_EQUAL(play(c0, g55555, 4, 100), 101)   
+		.CHECK_EQUAL(play(c9999, g9999, 4, 100), 101)  
+		.CHECK_EQUAL(play(c01234, g01234, 4, 100), 0)
+		.CHECK_EQUAL(play(c12345, g01234, 4, 100), 0)    
 		;
 		
+		ConstantChooser myRandy{"8950"};
+		testcase.CHECK_EQUAL(play(myRandy, smarty, 4, 100)<=100, true);
 
+		for (uint i=0; i<50; ++i) {
+			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100)<=10, true);  
+		}
+			
+		for (uint i=0; i<50; ++i) {
+			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100)>10, false); 
+		}	
+	
+				
+			
     grade = testcase.grade();
 	} else {
 		testcase.print_signal(signal);

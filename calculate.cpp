@@ -11,16 +11,18 @@ namespace bullpgia{
 	{
 		uint bull = 0;
 		uint pgia = 0;
-		short array [10] = {0};
+		char array [10] = {'x'};
 		for(int i=0; i<choose.size();i++)
 		{
-			if(choose[i]==guess[i])
+			if(choose[i]==guess[i]){
 				bull++;
+				
+			}
 			else{
-				for(int j=0; j<guess.size(); j++){
-					if(array[j] == 0 && choose[i]==guess[j] && i!=j){
+				for(int j=0; j<guess.size() && array[choose[i]] != 'v'; j++){
+					if(choose[i]==guess[j]){
 						pgia++;
-						array[j] = 1;
+						array[choose[i]] = 'v';
 					}
 				}
 			}

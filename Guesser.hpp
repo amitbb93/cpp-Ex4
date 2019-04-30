@@ -9,6 +9,6 @@ namespace bullpgia {
 		uint length;
         virtual string guess() = 0;
         virtual void startNewGame(uint length){this->length = length;};
-        virtual void learn(string str){}; //check before upload to github
+        virtual void learn(string str){};
     };
 }
