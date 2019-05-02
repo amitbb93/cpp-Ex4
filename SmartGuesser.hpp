@@ -2,6 +2,8 @@
 #include "Guesser.hpp"
 #include "iostream"
 #include <stdbool.h>
+#include <string>
+#include <sstream>
 using namespace std;
 class SmartGuesser : public bullpgia::Guesser{
 	 uint length = 0;
@@ -10,14 +12,15 @@ class SmartGuesser : public bullpgia::Guesser{
 	 string currectGuess = "";
 	 string pattern = "";
 	 uint bull = 0;
-	 uint pgia = 0;
-	 short location = 0;
+	 //uint pgia = 0;
+	 //short location = 0;
 	 short firstAttempt = -1;
 	 short secondAttempt = -1;
 	 short thirdAttempt = -1;
-	 short firstBool = 1;
-	 short secondBool = 1;
-	 short thirdBool = 1;
+	 //short firstBool = 1;
+	 //short secondBool = 1;
+	 //short thirdBool = 1;
+	 int index = 0;
 	 void startNewGame(uint length);
 	 string guess();
      void learn(string str);

@@ -9,38 +9,85 @@
 *@param bull - last bull from calculate function
 *@param pgia - last pgia from calculate function
 */
+using namespace std;
 void SmartGuesser::startNewGame(uint length) {
 	this->length=length;
 	checkedNumbers = -1;
 	fourBulls = 0;
 	pattern = "";
 	bull = 0;
-	pgia = 0;
-	location = 0;
+	//pgia = 0;
 	firstAttempt = -1;
 	secondAttempt = -1;
 	thirdAttempt = -1;
-	firstBool = 1;
-	secondBool = 1;
-	thirdBool = 1;
+	//firstBool = 1;
+	//secondBool = 1;
+	//thirdBool = 1;
+	index = 0;
 }
 
 string SmartGuesser::guess() {
-	if(fourBulls + bull < 4) return checkPattern();
-	else if(fourBulls!=4){
+	if(fourBulls + bull < 4)return checkPattern();
+	else if(fourBulls < 4){
 		bull=4-fourBulls;
 		buildPattern(checkedNumbers);
 		return buildSolution();
 	}
-	else return buildSolution();
+	else{
+		if(bull==1){index=0;fourBulls++;}
+		return buildSolution();
+	}
 }
 
 void SmartGuesser::learn(string str) {
 	bull = stoi(str.substr(0,1),nullptr,10);
-	pgia = stoi(str.substr(2,2),nullptr,10);
+	//pgia = stoi(str.substr(2,2),nullptr,10);
 }
 
 string SmartGuesser::buildSolution(){
+	string temp = "aaaa";
+	//cout<<"fourBulls: "<<fourBulls<<endl;
+	if (fourBulls==4){
+		for(int i=index; i<3; i++){
+			firstAttempt=i;
+			index++;
+			return temp.replace(i,1,pattern.substr(0,1));
+		}
+		index=0;firstAttempt=3;fourBulls++;
+	}
+	
+	if (fourBulls==5){
+		for(int i=index; i<3; i++){
+			secondAttempt=i;
+			index++;
+			if (i!=firstAttempt)return temp.replace(i,1,pattern.substr(1,1));
+		}
+		index=0;secondAttempt=3;fourBulls++;
+	}
+
+	if (fourBulls==6){
+		for(int i=index; i<3; i++){
+			thirdAttempt=i; 
+			index++;
+			if ((i!=firstAttempt) && (i!=secondAttempt))return temp.replace(i,1,pattern.substr(2,1));
+		}
+		index=0;thirdAttempt=3;fourBulls++;
+	}
+	string finalSolution = "bbbb";
+	finalSolution.replace(firstAttempt,1,pattern.substr(0,1));
+	finalSolution.replace(secondAttempt,1,pattern.substr(1,1));
+	finalSolution.replace(thirdAttempt,1,pattern.substr(2,1));
+	for(int i=0; i<4; i++){
+		if(finalSolution.at(i) == 'b'){
+			finalSolution.replace(i,1,pattern.substr(3,1));
+			break;
+		}
+	}
+	//cout<<"finalSolution: "<<finalSolution<<endl;
+	return finalSolution;
+}
+
+/*string SmartGuesser::buildSolution(){
 	if(firstAttempt > -1 && bull == 1) firstBool = 0;
 	if(firstAttempt == 2 && bull != 1) {firstAttempt=3; firstBool = 0;}
 	if(firstBool==1){
@@ -130,8 +177,7 @@ string SmartGuesser::buildSolution(){
 	}
 	//cout<<"finalSolution: "<<finalSolution<<endl;
 	return finalSolution;	
-}
-
+}*/
 
 string SmartGuesser::checkPattern(){
 	switch (checkedNumbers){
