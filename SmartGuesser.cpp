@@ -41,7 +41,8 @@ string SmartGuesser::guess() {
 	}
 	else if(this->length==3)return "000";
 	else if(this->length==2)return "00";
-	else return "0";
+	else if(this->length==1)return "0";
+	else return "";
 
 
 }
