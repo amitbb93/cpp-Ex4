@@ -27,16 +27,23 @@ void SmartGuesser::startNewGame(uint length) {
 }
 
 string SmartGuesser::guess() {
-	if(fourBulls + bull < 4)return checkPattern();
-	else if(fourBulls < 4){
-		bull=4-fourBulls;
-		buildPattern(checkedNumbers);
-		return buildSolution();
+	if(this->length==4){
+		if(fourBulls + bull < 4)return checkPattern();
+		else if(fourBulls < 4){
+			bull=4-fourBulls;
+			buildPattern(checkedNumbers);
+			return buildSolution();
+		}
+		else{
+			if(bull==1){index=0;fourBulls++;}
+			return buildSolution();
+		}
 	}
-	else{
-		if(bull==1){index=0;fourBulls++;}
-		return buildSolution();
-	}
+	else if(this->length==3)return "000";
+	else if(this->length==2)return "00";
+	else return "0";
+
+
 }
 
 void SmartGuesser::learn(string str) {
