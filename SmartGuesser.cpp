@@ -133,63 +133,53 @@ string SmartGuesser::checkPatternForThree(){
 			case 0:{index++;return "012";}
 			case 1:{firstAttempt=bull+pgia;index++;return "345";}
 			case 2:{secondAttempt=bull+pgia;index++;return "678";}
-			case 3:{thirdAttempt=bull+pgia;index++;if(firstAttempt+secondAttempt+thirdAttempt!=3)return "999";}
-			default:{if (bull!=0)fourthAttempt=bull;index++;}
+			case 3:{thirdAttempt=bull+pgia;index++;if(firstAttempt+secondAttempt+thirdAttempt!=3)return "999";else index++;break;}
+			case 4:{if (bull!=0)fourthAttempt=bull;index++;}
 		}
 	}
 	short array [] = {firstAttempt,firstAttempt,firstAttempt,secondAttempt,secondAttempt,secondAttempt,thirdAttempt,thirdAttempt,thirdAttempt,fourthAttempt};
-	//cout<<"bull:"<<bull<<endl;    
 	if(pattern.size()<3){
 		while(index2>=0 && bull>0){
 			pattern+=to_string(index2);
 			bull--;
-			//cout<<"pt:"<<pattern<<endl;
 		}
-		while(index2<10){
+		while(index2<9){
 			index2++;
 			if(array[index2]>0){
-			//cout<<"index:"<<index2<<endl;
 				return to_string(index2)+to_string(index2)+to_string(index2);
 			}
 		}
 	}
-			//cout<<"----------------:"<<endl;
-	/*if(pattern.size()<3){
-		while(index2>=0 && bull>0){
-			pattern+=to_string(index2);
-			bull--;
-			switch (index2){
-				case 0:case 1:case 2: if (bull==1 && firstAttempt>0)firstAttempt--;
-				case 3:case 4:case 5: if (bull==1 && secondAttempt>0)secondAttempt--;
-				case 6:case 7:case 8: if (bull==1 && thirdAttempt>0)thirdAttempt--;
-				default :if (bull==1 && fourthAttempt>0)fourthAttempt--;
-			}
+	if(bull>0){index++;index3=0;}
+	string temp = "aaa";
+	if (index==5){
+		for(int i=index3; i<2; i++){
+			firstAttempt=i;
+			index3++;
+			return temp.replace(i,1,pattern.substr(0,1));
 		}
-		while(index2<10){
-			index2++;
-			if(array[index2]>0){
-				switch (index2){
-				case 0:case 1:case 2: if (firstAttempt!=0)return to_string(index2)+to_string(index2)+to_string(index2);
-				case 3:case 4:case 5: if (secondAttempt!=0){ return to_string(index2)+to_string(index2)+to_string(index2);}
-				case 6:case 7:case 8: if (thirdAttempt!=0)return to_string(index2)+to_string(index2)+to_string(index2);
-				default :if (fourthAttempt!=0)return to_string(index2)+to_string(index2)+to_string(index2);
-				}
-			}
+		index3=0;firstAttempt=2;index++;
+	}
+	if (index==6){
+		for(int i=index3; i<2; i++){
+			secondAttempt=i;
+			index3++;
+			if (i!=firstAttempt)return temp.replace(i,1,pattern.substr(1,1));
 		}
-	}*/
-	/*if (firstAttempt+secondAttempt+thirdAttempt+fourthAttempt==0){
-	string final = "";
-	for (int i=0;i<2;i++){
-		if (i=0)
-		return pattern.substr(i,1)+"aa";
-		if (i=1)  
-		return "a"+ pattern.substr(i,1) +"a";
-		if (i=2)
-		return "aa"+ pattern.substr(i,1);
-		if (bull==1)
-			final+=pattern.substr(i,1);
-	}*/
-	return "000";
+		index3=0;secondAttempt=2;index++;
+	}
+	string finalSolution = "bbb";
+
+	finalSolution.replace(firstAttempt,1,pattern.substr(0,1));
+	finalSolution.replace(secondAttempt,1,pattern.substr(1,1));
+	for(int i=0; i<3; i++){
+		if(finalSolution.at(i) == 'b'){
+			finalSolution.replace(i,1,pattern.substr(2,1));
+			break;
+		}
+	}
+	cout<<"finalSolution: "<<finalSolution<<endl;
+	return finalSolution;
 }
 
 

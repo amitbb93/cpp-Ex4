@@ -123,7 +123,7 @@ int main() {
 		}
 		
 		for (uint i=0; i<20; ++i) {
-			testcase.CHECK_EQUAL(play(randy, smarty, 3, 10)<=20, true);  
+			testcase.CHECK_EQUAL(play(randy, smarty, 3, 20)<=20, true);  
 		}
 					//testcase.CHECK_EQUAL(play(c155, smarty, 3, 10)<=20, true);  
 
