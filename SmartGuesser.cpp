@@ -9,25 +9,27 @@
 *@param bull - last bull from calculate function
 *@param pgia - last pgia from calculate function
 */
-using namespace std;
+//using namespace std;
 void SmartGuesser::startNewGame(uint length) {
 	this->length=length;
 	checkedNumbers = -1;
 	fourBulls = 0;
 	pattern = "";
+	pgia = 0;
 	bull = 0;
-	//pgia = 0;
 	firstAttempt = -1;
 	secondAttempt = -1;
 	thirdAttempt = -1;
-	//firstBool = 1;
-	//secondBool = 1;
-	//thirdBool = 1;
+	fourthAttempt = -1;
+	fifthAttempt = -1;
 	index = 0;
+	index2 = -1;
+	index3 = 0;
 }
 
 string SmartGuesser::guess() {
-	if(this->length==4){
+	switch (this->length){
+	case 4:{
 		if(fourBulls + bull < 4)return checkPattern();
 		else if(fourBulls < 4){
 			bull=4-fourBulls;
@@ -39,29 +41,27 @@ string SmartGuesser::guess() {
 			return buildSolution();
 		}
 	}
-	else if(this->length==3)return "000";
-	else if(this->length==2)return "00";
-	else if(this->length==1)return "0";
-	else return "";
-
-
+	case 3:{return checkPatternForThree();}
+	case 2:{return checkPatternForTwo();}
+	default:{firstAttempt++; return to_string(firstAttempt);}
+	}
 }
+
 
 void SmartGuesser::learn(string str) {
 	bull = stoi(str.substr(0,1),nullptr,10);
-	//pgia = stoi(str.substr(2,2),nullptr,10);
+	pgia = stoi(str.substr(2,1),nullptr,10);
 }
 
 string SmartGuesser::buildSolution(){
 	string temp = "aaaa";
-	//cout<<"fourBulls: "<<fourBulls<<endl;
 	if (fourBulls==4){
 		for(int i=index; i<3; i++){
 			firstAttempt=i;
 			index++;
 			return temp.replace(i,1,pattern.substr(0,1));
 		}
-		index=0;firstAttempt=3;fourBulls++;
+		index= 0;firstAttempt=3;fourBulls++;
 	}
 	
 	if (fourBulls==5){
@@ -95,97 +95,91 @@ string SmartGuesser::buildSolution(){
 	return finalSolution;
 }
 
-/*string SmartGuesser::buildSolution(){
-	if(firstAttempt > -1 && bull == 1) firstBool = 0;
-	if(firstAttempt == 2 && bull != 1) {firstAttempt=3; firstBool = 0;}
-	if(firstBool==1){
-		switch(firstAttempt){
-			case -1:{firstAttempt=0;return pattern.substr(0,1)+"xxx";}
-			case 0:{firstAttempt=1;return "x"+pattern.substr(0,1)+"xx";}
-			case 1:{firstAttempt=2;return "xx"+pattern.substr(0,1)+"x";}
+string SmartGuesser::checkPatternForTwo(){
+	while(index < 5){
+		switch(index)
+		{
+			case 0:{index++;return "01";}
+			case 1:{firstAttempt=bull+pgia;index++;return "23";}
+			case 2:{secondAttempt=bull+pgia;index++;return "45";}
+			case 3:{thirdAttempt=bull+pgia;index++;return "67";}
+			default:{fourthAttempt=bull+pgia;index++;}
 		}
 	}
-	if(secondAttempt > -1 && bull == 1) secondBool = 0;
-	if((secondBool = 1) && (firstAttempt == 0 || firstAttempt == 1) && secondAttempt == 2 && bull != 1) {secondAttempt=3; secondBool = 0;}
-	if((secondBool = 1) && (firstAttempt == 2 || firstAttempt == 3) && secondAttempt == 1 && bull != 1) {secondAttempt=2; secondBool = 0;}
-	if(secondBool==1){
-		switch(firstAttempt){
-			case 0:
-					switch(secondAttempt){
-							case -1:{secondAttempt=1;return "x"+pattern.substr(1,1)+"xx";}
-							case 1:{secondAttempt=2;return "xx"+pattern.substr(1,1)+"x";}
-					}		
-			case 1:
-					switch(secondAttempt){
-							case -1:{secondAttempt=0;return pattern.substr(1,1)+"xxx";}
-							case 0:{secondAttempt=2;return "xx"+pattern.substr(1,1)+"x";}
-					}		
-			case 2:
-					switch(secondAttempt){
-							case -1:{secondAttempt=0;return pattern.substr(1,1)+"xxx";}
-							case 0:{secondAttempt=1;return "x"+pattern.substr(1,1)+"xx";}
-					}		
-			case 3:
-					switch(secondAttempt){
-							case -1:{secondAttempt=0;return pattern.substr(1,1)+"xxx";}
-							case 0:{secondAttempt=1;return "x"+pattern.substr(1,1)+"xx";}
-					}
+	if(firstAttempt+secondAttempt+thirdAttempt+fourthAttempt==0)fifthAttempt=2;
+	if(firstAttempt+secondAttempt+thirdAttempt+fourthAttempt==1)fifthAttempt=1;
+	short array [] = {firstAttempt,firstAttempt,secondAttempt,secondAttempt,thirdAttempt,thirdAttempt,fourthAttempt,fourthAttempt,fifthAttempt,fifthAttempt};
+	if(pattern.size()<2){
+		while(index2>=0 && bull>0){
+			pattern+=to_string(index2);
+			bull--;
+		}
+		index2++;
+		while(index2<10){
+			if(array[index2]>0){
+				return to_string(index2)+to_string(index2);
+			}
+			index2++;
 		}
 	}
-	if(thirdAttempt > -1 && bull == 1) thirdBool = 0;
-	if((thirdBool = 1) && (firstAttempt == 0 && secondAttempt == 1 && thirdAttempt == 2) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 0 && secondAttempt == 2 && thirdAttempt == 1) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 0 && secondAttempt == 3 && thirdAttempt == 1) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 1 && secondAttempt == 0 && thirdAttempt == 2) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 1 && secondAttempt == 2 && thirdAttempt == 0) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 1 && secondAttempt == 3 && thirdAttempt == 0) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 2 && secondAttempt == 0 && thirdAttempt == 1) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 2 && secondAttempt == 1 && thirdAttempt == 0) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 2 && secondAttempt == 3 && thirdAttempt == 0) && bull != 1) {thirdAttempt=1; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 3 && secondAttempt == 0 && thirdAttempt == 1) && bull != 1) {thirdAttempt=3; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 3 && secondAttempt == 1 && thirdAttempt == 0) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
-	if((thirdBool = 1) && (firstAttempt == 3 && secondAttempt == 2 && thirdAttempt == 0) && bull != 1) {thirdAttempt=2; thirdBool = 0;}
-	if(thirdBool==1){
-		switch(firstAttempt){
-			case 0:
-					switch(secondAttempt){
-							case 1:{thirdAttempt=2;return "xx"+pattern.substr(2,1)+"x";}
-							case 2:{thirdAttempt=1;return "x"+pattern.substr(2,1)+"xx";}
-							case 3:{thirdAttempt=1;return "x"+pattern.substr(2,1)+"xx";}
-					}		
-			case 1:
-					switch(secondAttempt){
-							case 0:{thirdAttempt=2;return "xx"+pattern.substr(2,1)+"x";}
-							case 2:{thirdAttempt=0;return pattern.substr(2,1)+"xxx";}
-							case 3:{thirdAttempt=0;return pattern.substr(2,1)+"xxx";}
-					}
-			case 2:
-					switch(secondAttempt){
-							case 0:{thirdAttempt=1;return "x"+pattern.substr(2,1)+"xx";}
-							case 1:{thirdAttempt=0;return pattern.substr(2,1)+"xxx";}
-							case 3:{thirdAttempt=0;return pattern.substr(2,1)+"xxx";}
-					}				
-			case 3:
-					switch(secondAttempt){
-							case 0:{thirdAttempt=1;return "x"+pattern.substr(2,1)+"xx";}
-							case 1:{thirdAttempt=0;return pattern.substr(2,1)+"xxx";}
-							case 2:{thirdAttempt=0;return pattern.substr(2,1)+"xxx";}
-					}
-		}	
-	}
-	string finalSolution = "xxxx";
-	finalSolution.replace(firstAttempt,1,pattern.substr(0,1));
-	finalSolution.replace(secondAttempt,1,pattern.substr(1,1));
-	finalSolution.replace(thirdAttempt,1,pattern.substr(2,1));
-	for(int i=0; i<4; i++){
-		if(finalSolution.at(i) == 'x'){
-			finalSolution.replace(i,1,pattern.substr(3,1));
-			break;
+	if(index == 5){index++; return pattern;}
+	else return pattern.substr(1,1) + pattern.substr(0,1);
+}
+
+string SmartGuesser::checkPatternForThree(){
+	while(index < 4){
+		switch(index)
+		{
+			case 0:{index++;return "012";}
+			case 1:{firstAttempt=bull+pgia;index++;return "345";}
+			case 2:{secondAttempt=bull+pgia;index++;return "678";}
+			default:{thirdAttempt=bull+pgia;index++;}
 		}
 	}
-	//cout<<"finalSolution: "<<finalSolution<<endl;
-	return finalSolution;	
-}*/
+	if(firstAttempt+secondAttempt+thirdAttempt==0)fourthAttempt=3;
+	if(firstAttempt+secondAttempt+thirdAttempt==1)fourthAttempt=2;
+	if(firstAttempt+secondAttempt+thirdAttempt==2)fourthAttempt=1;
+	short array [] = {firstAttempt,firstAttempt,firstAttempt,secondAttempt,secondAttempt,secondAttempt,thirdAttempt,thirdAttempt,thirdAttempt,fourthAttempt};
+	if(pattern.size()<3){
+		while(index2>=0 && bull>0){
+			pattern+=to_string(index2);
+			bull--;
+			switch (index2){
+				case 0:case 1:case 2: if (bull==1 && firstAttempt>0)firstAttempt--;
+				case 3:case 4:case 5: if (bull==1 && secondAttempt>0)secondAttempt--;
+				case 6:case 7:case 8: if (bull==1 && thirdAttempt>0)thirdAttempt--;
+				default :if (bull=1 && fourthAttempt>0)fourthAttempt--;
+			}
+		}
+		while(index2<10){
+			index2++;
+			if(array[index2]>0){
+				switch (index2){
+				case 0:case 1:case 2: if (firstAttempt!=0)return to_string(index2)+to_string(index2)+to_string(index2);
+				case 3:case 4:case 5: if (secondAttempt!=0){ return to_string(index2)+to_string(index2)+to_string(index2);}
+				case 6:case 7:case 8: if (thirdAttempt!=0)return to_string(index2)+to_string(index2)+to_string(index2);
+				default :if (fourthAttempt!=0)return to_string(index2)+to_string(index2)+to_string(index2);
+				}
+			}
+		}
+	}
+	cout<<pattern<<endl;
+	/*if (firstAttempt+secondAttempt+thirdAttempt+fourthAttempt==0){
+	string final = "";
+	for (int i=0;i<2;i++){
+		if (i=0)
+		return pattern.substr(i,1)+"aa";
+		if (i=1)  
+		return "a"+ pattern.substr(i,1) +"a";
+		if (i=2)
+		return "aa"+ pattern.substr(i,1);
+		if (bull==1)
+			final+=pattern.substr(i,1);
+	}*/
+	return "000";
+}
+
+
 
 string SmartGuesser::checkPattern(){
 	switch (checkedNumbers){

@@ -112,13 +112,19 @@ int main() {
 
 		for (uint i=0; i<50; ++i) {
 			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100)<=20, true);  
+		}	
+
+		for (uint i=0; i<20; ++i) {
+			testcase.CHECK_EQUAL(play(randy, smarty, 1, 10)<=10, true);  
+		}	
+		
+		for (uint i=0; i<20; ++i) {
+			testcase.CHECK_EQUAL(play(randy, smarty, 2, 10)<=10, true);  
 		}
-			
-		for (uint i=0; i<50; ++i) {
-			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100)>20, false); 
+		
+		for (uint i=0; i<20; ++i) {
+			testcase.CHECK_EQUAL(play(randy, smarty, 3, 10)<=10, true);  
 		}
-	
-				
 			
     grade = testcase.grade();
 	} else {
