@@ -10,6 +10,5 @@ std::string RandomChooser::choose(uint length) {
 		char c = '0' + (rand()%10);
 		r += c;
 	}
-	cout<<"chooser: "<<r<<endl;
 	return r;
 }

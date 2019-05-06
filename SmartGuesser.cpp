@@ -1,15 +1,8 @@
 #include "SmartGuesser.hpp"
 #include <string>
 /**
-*
-*@param checkedNumbers - is the basic number we go over for example "0000", "1111", "2222"...
-*@param fourBulls - condition to stop using checkedNumbers
-*@param pattern - save the bull numbers
-*@param currectGuess - the right string for now
-*@param bull - last bull from calculate function
-*@param pgia - last pgia from calculate function
+*This class is responsible for guesseing the right choosers string
 */
-//using namespace std;
 void SmartGuesser::startNewGame(uint length) {
 	this->length=length;
 	checkedNumbers = -1;
@@ -27,6 +20,11 @@ void SmartGuesser::startNewGame(uint length) {
 	index3 = 0;
 }
 
+/**
+* This function returns for the "play" class the guess string every iteration
+*@param fourBulls - condition to stop using checkedNumbers
+*@param index - helps to initialize the guesses for the function that guesseing the numbers
+*/
 string SmartGuesser::guess() {
 	switch (this->length){
 	case 4:{
@@ -47,12 +45,27 @@ string SmartGuesser::guess() {
 	}
 }
 
-
+/**
+* This function update for each guess how many bulls and pgias it has
+*@param bull - last bull from calculate function
+*@param pgia - last pgia from calculate function
+*/
 void SmartGuesser::learn(string str) {
 	bull = stoi(str.substr(0,1),nullptr,10);
 	pgia = stoi(str.substr(2,1),nullptr,10);
 }
 
+/**
+* ( 4 numbers length ) This function finds the right location for each number that we ensured that actually exist in the choosers string
+*@param fourBulls - a counter,every time we find the location of the number it raise by one
+*@param index - helps to initialize the guesses for the function that guesseing the numbers
+*@param pattern - save the right numbers of the choosers string (not in the right location) from min to max.
+*@param firstAttempt, secondAttempt, thirdAttempt- saves the index of the number's location
+*@param temp - a temporary string that we are sending for the calculate for checking the numbers.
+*for example if the pattern is "123" we will start with sending "1aaa", than "a1aa" untill well find the right location of "1" and so on.
+*@param finalSolution - the right guess
+*@return : the final guess string  
+*/
 string SmartGuesser::buildSolution(){
 	string temp = "aaaa";
 	if (fourBulls==4){
@@ -91,10 +104,18 @@ string SmartGuesser::buildSolution(){
 			break;
 		}
 	}
-	//cout<<"finalSolution: "<<finalSolution<<endl;
 	return finalSolution;
 }
 
+/**
+* ( 2 numbers length )This function finds the right location for each number that we ensured that actually exist in the choosers string
+*@param index - stop condition for the switch case
+*@param index2 - index for run the array 
+*@param pattern - save the right numbers of the choosers string (not in the right location) from min to max.
+*@param firstAttempt, secondAttempt, thirdAttempt- saves the index of the number's location
+*@param array - saves which group ofnumbers we need to check.
+*@return : the final guess string  
+*/
 string SmartGuesser::checkPatternForTwo(){
 	while(index < 5){
 		switch(index)
@@ -126,6 +147,18 @@ string SmartGuesser::checkPatternForTwo(){
 	else return pattern.substr(1,1) + pattern.substr(0,1);
 }
 
+/**
+* ( 3 numbers length ) This function finds the right location for each number that we ensured that actually exist in the choosers string
+*@param index - helps to initialize the guesses for the function that guesseing the numbers
+*@param index2 - index for run the array 
+*@param index3 - using for finding the right numbers from the group
+*@param pattern - save the right numbers of the choosers string (not in the right location) from min to max.
+*@param firstAttempt, secondAttempt, thirdAttempt, fourthAttempt - saves the index of the number's location
+*@param temp - a temporary string that we are sending for the calculate for checking the numbers.
+*for example if the pattern is "123" we will start with sending "1aa", than "a1a" untill well find the right location of "1" and so on.
+*@param finalSolution - the right guess
+*@return : the final guess string  
+*/
 string SmartGuesser::checkPatternForThree(){
 	while(index < 5){
 		switch(index)
@@ -178,12 +211,14 @@ string SmartGuesser::checkPatternForThree(){
 			break;
 		}
 	}
-	cout<<"finalSolution: "<<finalSolution<<endl;
 	return finalSolution;
 }
 
-
-
+/**
+* This function uses for 4 length of string, it checks which number is in the choosers string
+*@param checkedNumbers - is the basic number we go over for example "0000", "1111", "2222"...
+*@param fourBulls - stop condition,once it gets to 4 bulls it stops
+*/
 string SmartGuesser::checkPattern(){
 	switch (checkedNumbers){
 		case -1:{checkedNumbers = 0;return "0000";}	
@@ -209,6 +244,12 @@ string SmartGuesser::checkPattern(){
 	return "xxxx";
 }
 
+
+/**
+* This function uses for 4 length of string,it build the pattern(a string that saves the right numbers of the choosers string (not in the right location) from min to max.)
+*@param checkedNumbers - is the basic number we go over for example "0000", "1111", "2222"...
+*@param fourBulls - stop condition,once it gets to 4 bulls it stops
+*/
 void SmartGuesser::buildPattern(short numberOfBulls){
 	uint howManyBulls = 0;
 	fourBulls = fourBulls + bull;
