@@ -138,22 +138,22 @@ string SmartGuesser::checkPatternForThree(){
 		}
 	}
 	short array [] = {firstAttempt,firstAttempt,firstAttempt,secondAttempt,secondAttempt,secondAttempt,thirdAttempt,thirdAttempt,thirdAttempt,fourthAttempt};
-	cout<<"bull:"<<bull<<endl;    
+	//cout<<"bull:"<<bull<<endl;    
 	if(pattern.size()<3){
 		while(index2>=0 && bull>0){
 			pattern+=to_string(index2);
 			bull--;
-			cout<<"pt:"<<pattern<<endl;
+			//cout<<"pt:"<<pattern<<endl;
 		}
 		while(index2<10){
 			index2++;
 			if(array[index2]>0){
-			cout<<"index:"<<index2<<endl;
+			//cout<<"index:"<<index2<<endl;
 				return to_string(index2)+to_string(index2)+to_string(index2);
 			}
 		}
 	}
-			cout<<"----------------:"<<endl;
+			//cout<<"----------------:"<<endl;
 	/*if(pattern.size()<3){
 		while(index2>=0 && bull>0){
 			pattern+=to_string(index2);
