@@ -127,20 +127,34 @@ string SmartGuesser::checkPatternForTwo(){
 }
 
 string SmartGuesser::checkPatternForThree(){
-	while(index < 4){
+	while(index < 5){
 		switch(index)
 		{
 			case 0:{index++;return "012";}
 			case 1:{firstAttempt=bull+pgia;index++;return "345";}
 			case 2:{secondAttempt=bull+pgia;index++;return "678";}
-			default:{thirdAttempt=bull+pgia;index++;}
+			case 3:{thirdAttempt=bull+pgia;index++;if(firstAttempt+secondAttempt+thirdAttempt!=3)return "999";}
+			default:{if (bull!=0)fourthAttempt=bull;index++;}
 		}
 	}
-	if(firstAttempt+secondAttempt+thirdAttempt==0)fourthAttempt=3;
-	if(firstAttempt+secondAttempt+thirdAttempt==1)fourthAttempt=2;
-	if(firstAttempt+secondAttempt+thirdAttempt==2)fourthAttempt=1;
 	short array [] = {firstAttempt,firstAttempt,firstAttempt,secondAttempt,secondAttempt,secondAttempt,thirdAttempt,thirdAttempt,thirdAttempt,fourthAttempt};
+	cout<<"bull:"<<bull<<endl;    
 	if(pattern.size()<3){
+		while(index2>=0 && bull>0){
+			pattern+=to_string(index2);
+			bull--;
+			cout<<"pt:"<<pattern<<endl;
+		}
+		while(index2<10){
+			index2++;
+			if(array[index2]>0){
+			cout<<"index:"<<index2<<endl;
+				return to_string(index2)+to_string(index2)+to_string(index2);
+			}
+		}
+	}
+			cout<<"----------------:"<<endl;
+	/*if(pattern.size()<3){
 		while(index2>=0 && bull>0){
 			pattern+=to_string(index2);
 			bull--;
@@ -148,7 +162,7 @@ string SmartGuesser::checkPatternForThree(){
 				case 0:case 1:case 2: if (bull==1 && firstAttempt>0)firstAttempt--;
 				case 3:case 4:case 5: if (bull==1 && secondAttempt>0)secondAttempt--;
 				case 6:case 7:case 8: if (bull==1 && thirdAttempt>0)thirdAttempt--;
-				default :if (bull=1 && fourthAttempt>0)fourthAttempt--;
+				default :if (bull==1 && fourthAttempt>0)fourthAttempt--;
 			}
 		}
 		while(index2<10){
@@ -162,8 +176,7 @@ string SmartGuesser::checkPatternForThree(){
 				}
 			}
 		}
-	}
-	cout<<pattern<<endl;
+	}*/
 	/*if (firstAttempt+secondAttempt+thirdAttempt+fourthAttempt==0){
 	string final = "";
 	for (int i=0;i<2;i++){
